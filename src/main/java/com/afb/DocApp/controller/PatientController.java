@@ -1,6 +1,7 @@
 package com.afb.DocApp.controller;
 
 import com.afb.DocApp.domain.dto.Patient.CreatePatientResource;
+import com.afb.DocApp.domain.dto.Patient.GetPatientGenderResource;
 import com.afb.DocApp.domain.dto.Patient.GetPatientResource;
 import com.afb.DocApp.domain.dto.Patient.UpdatePatientResource;
 import com.afb.DocApp.domain.dto.User.CreateUserResource;
@@ -48,6 +49,11 @@ public class PatientController {
     @GetMapping("/searchPatientByFullname/{patientFullname}")
     public ResponseEntity<List<GetPatientResource>> getPatientsByFullName(@PathVariable String patientFullname){
        return ResponseEntity.ok(patientService.getPatientsByFullName(patientFullname));
+    }
+
+    @GetMapping("/getUserPatients/{userId}/findPatientsByGender")
+    public ResponseEntity<GetPatientGenderResource> findPatientsByGender(String gender, @PathVariable Long userId){
+        return ResponseEntity.ok(patientService.findPatientsByGender(gender,userId));
     }
 
     @PutMapping("/{id}")

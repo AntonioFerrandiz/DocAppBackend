@@ -1,6 +1,7 @@
 package com.afb.DocApp.service;
 
 import com.afb.DocApp.domain.dto.Patient.CreatePatientResource;
+import com.afb.DocApp.domain.dto.Patient.GetPatientGenderResource;
 import com.afb.DocApp.domain.dto.Patient.GetPatientResource;
 import com.afb.DocApp.domain.dto.Patient.UpdatePatientResource;
 import com.afb.DocApp.domain.model.Patient;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +57,19 @@ public class PatientService {
         List<Patient> patients;
         patients = patientRepository.findPatientsByFullnameContainsIgnoreCase(patientFullname);
         return GetPatientResource.convert(patients);
+    }
+
+    public GetPatientGenderResource findPatientsByGender(String gender, Long userId){
+        Integer patientsM, patientsF;
+
+        patientsM = patientRepository.findPatientByGenderAndUser_Id("Masculino", userId).size();
+        patientsF = patientRepository.findPatientByGenderAndUser_Id("Femenino", userId).size();
+
+
+        GetPatientGenderResource getPatientGenderResource = new GetPatientGenderResource();
+        getPatientGenderResource.setPatientsMale(patientsM);
+        getPatientGenderResource.setPatientsFemale(patientsF);
+        return getPatientGenderResource;
     }
 
     @Transactional
