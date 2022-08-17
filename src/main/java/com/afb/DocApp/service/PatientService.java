@@ -11,6 +11,8 @@ import com.afb.DocApp.domain.repository.UserRepository;
 import com.afb.DocApp.shared.exception.ResourceNotFoundException;
 import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +29,8 @@ public class PatientService {
     private PatientRepository patientRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @CacheEvict(value = {"patientsGenderCount", "getPatientsByFullName","getPatientsByUserId"}, allEntries = true)
 
     public Patient save(CreatePatientResource resource){
         Optional<User> user = userRepository.findById(resource.getUserId());
@@ -47,18 +51,21 @@ public class PatientService {
         }
         return new GetPatientResource(patient.get());
     }
+    @Cacheable(value = "getPatientsByUserId")
     public List<GetPatientResource> getPatientsByUserId(Long userId){
         List<Patient> patients;
         patients = patientRepository.findByUser_Id(userId);
         return GetPatientResource.convert(patients);
     }
 
+    @Cacheable(value = "getPatientsByFullName")
     public List<GetPatientResource> getPatientsByFullName(String patientFullname){
         List<Patient> patients;
         patients = patientRepository.findPatientsByFullnameContainsIgnoreCase(patientFullname);
         return GetPatientResource.convert(patients);
     }
 
+    @Cacheable(value = "patientsGenderCount")
     public GetPatientGenderResource findPatientsByGender(String gender, Long userId){
         Integer patientsM, patientsF;
 
@@ -73,6 +80,7 @@ public class PatientService {
     }
 
     @Transactional
+    @CacheEvict(value = {"getPatientsByFullName","getPatientsByUserId"}, allEntries = true)
     public Patient updatePatient(Long id, @Valid UpdatePatientResource updatePatientResource){
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if(!optionalPatient.isPresent()){
@@ -86,6 +94,7 @@ public class PatientService {
         return patient;
     }
 
+    @CacheEvict(value = {"patientsGenderCount", "getPatientsByFullName","getPatientsByUserId"}, allEntries = true)
     public void deletePatient(Long id){
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if(!optionalPatient.isPresent()){
