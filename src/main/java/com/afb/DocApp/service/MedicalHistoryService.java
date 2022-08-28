@@ -40,6 +40,10 @@ public class MedicalHistoryService {
 
     }
 
+    public GetMedicalHistoryResource getMedicalHistoryResource(Long medicalHistoryId){
+        Optional<MedicalHistory> medicalHistory = medicalHistoryRepository.findById(medicalHistoryId);
+        return new GetMedicalHistoryResource(medicalHistory.get());
+    }
     public List<GetMedicalHistoryResource> getAllMedicalHistories(){
         List<MedicalHistory> medicalHistories;
         medicalHistories = medicalHistoryRepository.findAll();

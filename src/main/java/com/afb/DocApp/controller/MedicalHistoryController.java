@@ -38,7 +38,10 @@ public class MedicalHistoryController {
     public ResponseEntity<List<GetMedicalHistoryResource>> getAllMedicalHistoriesByPatient(@PathVariable Long patientId){
         return ResponseEntity.ok(medicalHistoryService.getAllMedicalHistoriesByPatient(patientId));
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<GetMedicalHistoryResource> getMedicalHistory(@PathVariable Long id){
+        return ResponseEntity.ok(medicalHistoryService.getMedicalHistoryResource(id));
+    }
     @PutMapping("/{id}")
     public ResponseEntity updateMedicalHistory(@PathVariable Long id, @Valid @RequestBody UpdateMedicalHistoryResource updateMedicalHistoryResource){
         MedicalHistory medicalHistory = medicalHistoryService.updateMedicalHistory(id, updateMedicalHistoryResource);
