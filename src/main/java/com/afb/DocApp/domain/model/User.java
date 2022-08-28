@@ -30,15 +30,21 @@ public class User {
     @NotNull
     private Long dni;
 
+    private String email;
+
+    private String password;
+
     private LocalDateTime dateCreated;
 
     private Boolean active;
 
 
-    public User(String name, String lastname, Long dni, LocalDateTime dateCreated, Boolean active) {
+    public User(String name, String lastname, Long dni, String email, String password, LocalDateTime dateCreated, Boolean active) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
+        this.email = email;
+        this.password = password;
         this.dateCreated = LocalDateTime.now();
         this.active = true;
     }

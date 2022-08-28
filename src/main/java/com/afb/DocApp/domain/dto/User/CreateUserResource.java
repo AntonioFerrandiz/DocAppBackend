@@ -28,6 +28,9 @@ public class CreateUserResource {
     @NotNull
     private Long dni;
 
+    private String email;
+
+    private String password;
     private LocalDateTime dateCreated;
 
     private Boolean active;
@@ -37,11 +40,13 @@ public class CreateUserResource {
         this.name = user.getName();
         this.lastname = user.getLastname();
         this.dni = user.getDni();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
         this.dateCreated = user.getDateCreated();
         this.active = user.getActive();
     }
 
     public User convert() {
-        return new User(name, lastname, dni, dateCreated, active);
+        return new User(name, lastname, dni, email, password, dateCreated, active);
     }
 }
