@@ -34,6 +34,9 @@ public class PatientService {
 
     public Patient save(CreatePatientResource resource){
         Optional<User> user = userRepository.findById(resource.getUserId());
+        if(!user.isPresent()){
+            throw new ResourceNotFoundException("USUARIO", resource.getUserId());
+        }
         Patient patient = resource.convert(user);
         return patientRepository.save(patient);
     }
@@ -54,6 +57,7 @@ public class PatientService {
     @Cacheable(value = "getPatientsByUserId")
     public List<GetPatientResource> getPatientsByUserId(Long userId){
         List<Patient> patients;
+
         patients = patientRepository.findByUser_Id(userId);
         return GetPatientResource.convert(patients);
     }
