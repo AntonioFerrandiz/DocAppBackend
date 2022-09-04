@@ -3,6 +3,7 @@ package com.afb.DocApp.config.security;
 import com.afb.DocApp.domain.model.User;
 import com.afb.DocApp.domain.repository.UserRepository;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Component
@@ -31,24 +33,7 @@ public class JwtUtils {
     @Autowired
     private UserRepository userRepository;
 
-    public String extractUsername(String token){
-        return extractClaim(token, Claims::getSubject);
-    }
-    public Date extractExpiration(String token){
-        return extractClaim(token, Claims::getExpiration);
-    }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-    }
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
     public String generateToken(UserDetails userDetails){
         Map<String, Object> claims = new HashMap<>();
         User user = userRepository.findByEmail(userDetails.getUsername());
@@ -69,9 +54,15 @@ public class JwtUtils {
                 .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Optional<Jws<Claims>> getTokenInfo(String token) {
+        try{
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
+            return Optional.of(claims);
+        } catch (Exception e){
+            return Optional.empty();
+        }
     }
 
 }

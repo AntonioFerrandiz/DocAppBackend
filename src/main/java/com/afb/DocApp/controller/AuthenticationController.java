@@ -4,6 +4,7 @@ import com.afb.DocApp.config.security.JwtUtils;
 import com.afb.DocApp.domain.dto.Token.GetTokenResource;
 import com.afb.DocApp.domain.model.Login;
 import com.afb.DocApp.service.UserDetailsServiceImpl;
+import com.afb.DocApp.shared.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,12 +38,11 @@ public class AuthenticationController {
         try{
             authenticate(login.getEmail(), login.getPassword());
         } catch (Exception e){
-            e.printStackTrace();
-            throw new Exception("Usuario no encontrado");
+            throw new ResourceNotFoundException();
         }
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(login.getEmail());
         String token = this.jwtUtils.generateToken(userDetails);
-        return ResponseEntity.ok(new GetTokenResource(token, "Bearer "));
+        return ResponseEntity.ok(new GetTokenResource(token));
 
     }
 
@@ -53,7 +53,7 @@ public class AuthenticationController {
         } catch (DisabledException exception){
             throw new Exception("Usuario deshabilitado " + exception.getMessage());
         } catch (BadCredentialsException e){
-            throw new Exception("Credenciales invalidas " + e.getMessage());
+            throw new ResourceNotFoundException();
         }
     }
 }

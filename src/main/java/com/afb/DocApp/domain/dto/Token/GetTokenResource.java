@@ -7,11 +7,8 @@ import lombok.Setter;
 @Setter
 public class GetTokenResource {
     private String token;
-    private String type;
-
-    public GetTokenResource(String token, String type){
+    public GetTokenResource(String token){
         this.token = token;
-        this.type = type;
     }
 
 
