@@ -36,6 +36,14 @@ public class User implements UserDetails{
 
     private String email;
 
+    private Long numberPhone;
+
+    private String medicalSpeciality;
+
+    private Long CMP;
+
+    private String medicalOffice;
+
     private String password;
 
     private LocalDateTime dateCreated;
@@ -47,7 +55,9 @@ public class User implements UserDetails{
     private Set<UserRole> userRoles = new HashSet<>();
 
 
-    public User(String name, String lastname, Long dni, String email, String password, LocalDateTime dateCreated, Boolean active) {
+    public User(String name, String lastname, Long dni, String email, String password,
+                LocalDateTime dateCreated, Boolean active, Long numberPhone, String medicalSpeciality,
+                Long CMP, String medicalOffice) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -55,6 +65,10 @@ public class User implements UserDetails{
         this.password = password;
         this.dateCreated = LocalDateTime.now();
         this.active = true;
+        this.numberPhone = numberPhone;
+        this.medicalSpeciality = medicalSpeciality;
+        this.CMP = CMP;
+        this.medicalOffice = medicalOffice;
     }
 
     @Override

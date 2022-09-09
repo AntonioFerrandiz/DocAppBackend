@@ -19,10 +19,23 @@ public class GetUserResource {
     private String fullname;
     private Boolean active;
 
+    private String email;
+
+    private Long numberPhone;
+
+    private String medicalSpeciality;
+
+    private Long CMP;
+
+    private String medicalOffice;
     public GetUserResource(User user) {
         this.fullname = user.getName() + ' ' + user.getLastname();
-
         this.active = user.getActive();
+        this.email = user.getEmail();
+        this.numberPhone = user.getNumberPhone();
+        this.medicalSpeciality = user.getMedicalSpeciality();
+        this.CMP = user.getCMP();
+        this.medicalOffice = user.getMedicalOffice();
     }
 
     public static List<GetUserResource> convert(List<User> users) {

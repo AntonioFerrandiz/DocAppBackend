@@ -30,6 +30,13 @@ public class CreateUserResource {
 
     private String email;
 
+    private Long numberPhone;
+
+    private String medicalSpeciality;
+
+    private Long CMP;
+
+    private String medicalOffice;
     private String password;
     private LocalDateTime dateCreated;
 
@@ -44,9 +51,14 @@ public class CreateUserResource {
         this.password = user.getPassword();
         this.dateCreated = user.getDateCreated();
         this.active = user.getActive();
+        this.numberPhone = user.getNumberPhone();
+        this.medicalSpeciality = user.getMedicalSpeciality();
+        this.CMP = user.getCMP();
+        this.medicalOffice = user.getMedicalOffice();
     }
 
     public User convert() {
-        return new User(name, lastname, dni, email, password, dateCreated, active);
+        return new User(name, lastname, dni, email, password, dateCreated, active,
+                        numberPhone, medicalSpeciality, CMP, medicalOffice);
     }
 }
