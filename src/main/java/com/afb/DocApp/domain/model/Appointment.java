@@ -42,7 +42,7 @@ public class Appointment {
         Locale locale = new Locale("es","ES");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy",locale);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        //this.appointmentDate = now.format(dateFormatter);
+        //this.appointmentDate = now.format(dateFormatte r);
         //this.appointmentStartTime = now.format(timeFormatter);
         //this.appointmentEndTime = now.format(timeFormatter);
         this.appointmentDate = appointmentDate;
