@@ -42,9 +42,12 @@ public class Appointment {
         Locale locale = new Locale("es","ES");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy",locale);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        this.appointmentDate = now.format(dateFormatter);
-        this.appointmentStartTime = now.format(timeFormatter);
-        this.appointmentEndTime = now.format(timeFormatter);
+        //this.appointmentDate = now.format(dateFormatter);
+        //this.appointmentStartTime = now.format(timeFormatter);
+        //this.appointmentEndTime = now.format(timeFormatter);
+        this.appointmentDate = appointmentDate;
+        this.appointmentStartTime = appointmentStartTime;
+        this.appointmentEndTime = appointmentEndTime;
         patient.ifPresent(p -> this.patient = p);
         this.statusAppointment = StatusAppointment.ACTIVO;
     }
