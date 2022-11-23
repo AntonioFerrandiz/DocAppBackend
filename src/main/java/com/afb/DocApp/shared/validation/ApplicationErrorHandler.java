@@ -1,5 +1,6 @@
 package com.afb.DocApp.shared.validation;
 
+import com.afb.DocApp.shared.exception.ResourceDateException;
 import com.afb.DocApp.shared.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,5 +16,9 @@ public class ApplicationErrorHandler {
         return exception.getMessage();
     }
 
-
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(ResourceDateException.class)
+    public String handleNotFound(ResourceDateException exception){
+        return exception.getMessage();
+    }
 }
